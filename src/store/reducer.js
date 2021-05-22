@@ -1,4 +1,4 @@
-import { authLogin, authLogout } from './actions';
+//import { authLogin, authLogout } from './actions';
 import { AUTH_LOGIN, AUTH_LOGOUT } from './types';
 
 const initialState = {

@@ -1,14 +1,17 @@
 import React from 'react';
 import T from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import usePromise from '../../../hooks/usePromise';
 import { login } from '../../../api/auth';
 import LoginForm from './LoginForm';
 import { authLogin } from '../../../store/actions';
 
-function LoginPage({ onLogin, location, history }) {
+function LoginPage({ location, history }) {
 	const { isPending: isLoading, error, execute, resetError } = usePromise();
+
+	const dispatch = useDispatch();
+	const onLogin = () => dispatch(authLogin());
 
 	const handleSubmit = (credentials) => {
 		execute(login(credentials))
@@ -38,8 +41,9 @@ LoginPage.propTypes = {
 	history: T.shape({ replace: T.func.isRequired }).isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-	onLogin: () => dispatch(authLogin()),
-});
+// const mapDispatchToProps = (dispatch) => ({
+// 	onLogin: () => dispatch(authLogin()),
+// });
 
-export default connect(null, mapDispatchToProps)(LoginPage);
+// export default connect(null, mapDispatchToProps)(LoginPage);
+export default LoginPage;

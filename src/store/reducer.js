@@ -3,7 +3,7 @@ import { AUTH_LOGIN, AUTH_LOGOUT } from './types';
 
 const initialState = {
 	auth: false,
-	//adverts: [],
+	adverts: [],
 };
 
 function reducer(state = initialState, action) {

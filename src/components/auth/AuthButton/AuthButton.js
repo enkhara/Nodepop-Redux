@@ -6,7 +6,7 @@ import { ConfirmationButton } from '../../shared';
 import { logout } from '../../../api/auth';
 import { connect } from 'react-redux';
 import { getIsLogged } from '../../../store/selectors';
-import { authLogout } from '../../../store/actions';
+import { authLogout as handleLogout } from '../../../store/actions';
 
 const AuthButton = ({ handleLogout, isLogged }) => {
 	const handleLogoutConfirm = async () => {
@@ -37,7 +37,13 @@ AuthButton.defaultProps = {
 
 //TODO: connect(mapStateToProps => passar a hoc, per que també s'està utilitzant a PrivateRoute.js i envoltar-los amb el hoc en lloc de connect)
 const mapStateToProps = (state) => ({ isLogged: getIsLogged(state) });
-const mapDispatchToProps = (dispatch) => ({
-	handleLogout: () => dispatch(authLogout()),
-});
+
+// const mapDispatchToProps = (dispatch) => ({
+// 	handleLogout: () => dispatch(authLogout()),
+// });
+
+const mapDispatchToProps = {
+	handleLogout,
+};
+
 export default connect(mapStateToProps, mapDispatchToProps)(AuthButton);

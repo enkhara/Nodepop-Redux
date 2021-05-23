@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import Root from './Root';
-//import { BrowserRouter as Router } from 'react-router-dom';
-//import { Provider } from 'react-redux';
 import './index.css';
-//import App from './components/app';
 
 import { configureClient } from './api/client';
 import storage from './utils/storage';
@@ -16,12 +14,4 @@ configureClient({ accessToken });
 const store = configureStore({ preloadedState: { auth: !!accessToken } });
 console.log(store.getState());
 
-ReactDOM.render(
-	// <Provider store={store}>
-	// 	<Router>
-	// 		<App />
-	// 	</Router>
-	// </Provider>
-	<Root store={store} />,
-	document.getElementById('root')
-);
+ReactDOM.render(<Root store={store} />, document.getElementById('root'));

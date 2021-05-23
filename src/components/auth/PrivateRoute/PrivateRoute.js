@@ -1,15 +1,17 @@
 import { Redirect, Route, useLocation } from 'react-router-dom';
-import { useAuthContext } from '../context';
+import { connect } from 'react-redux';
+import { getIsLogged } from '../../../store/selectors';
 
-const PrivateRoute = props => {
-  const { isLogged } = useAuthContext();
-  const location = useLocation();
+const PrivateRoute = ({ isLogged, ...props }) => {
+	const location = useLocation();
 
-  return isLogged ? (
-    <Route {...props} />
-  ) : (
-    <Redirect to={{ pathname: '/login', state: { from: location } }} />
-  );
+	return isLogged ? (
+		<Route {...props} />
+	) : (
+		<Redirect to={{ pathname: '/login', state: { from: location } }} />
+	);
 };
 
-export default PrivateRoute;
+const mapStateToProps = (state) => ({ isLogged: getIsLogged(state) });
+
+export default connect(mapStateToProps)(PrivateRoute);

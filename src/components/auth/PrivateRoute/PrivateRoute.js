@@ -4,7 +4,7 @@ import { getIsLogged } from '../../../store/selectors';
 import { useSelector } from 'react-redux';
 const PrivateRoute = (props) => {
 	const location = useLocation();
-	const isLogged = useSelector((state) => getIsLogged);
+	const isLogged = useSelector((state) => getIsLogged(state));
 	return isLogged ? (
 		<Route {...props} />
 	) : (

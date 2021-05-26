@@ -6,50 +6,60 @@ import FiltersForm from './FiltersForm';
 import AdvertsList from './AdvertsList';
 import EmptyList from './EmptyList';
 import storage from '../../../utils/storage';
-import { getAdverts } from '../../../api/adverts';
 import { defaultFilters, filterAdverts } from './filters';
-import usePromise from '../../../hooks/usePromise';
+import { getAllAdverts } from '../../../api/adverts';
+//import usePromise from '../../../hooks/usePromise';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { getAdverts } from '../../../store/selectors';
+import { advertsLoaded } from '../../../store/actions';
 
 const getFilters = () => storage.get('filters') || defaultFilters;
-const saveFilters = filters => storage.set('filters', filters);
+const saveFilters = (filters) => storage.set('filters', filters);
 
 function AdvertsPage() {
-  const { isPending: isLoading, error, execute, data: adverts } = usePromise(
-    []
-  );
-  const [filters, setFilters] = React.useState(getFilters);
+	// const {
+	// 	isPending: isLoading,
+	// 	error,
+	// 	execute,
+	// 	data: adverts,
+	// } = usePromise([]);
+	const [filters, setFilters] = React.useState(getFilters);
+	const dispatch = useDispatch();
+	const adverts = useSelector(getAdverts);
 
-  React.useEffect(() => {
-    execute(getAdverts());
-  }, []);
+	React.useEffect(() => {
+		getAllAdverts().then((adverts) => dispatch(advertsLoaded(adverts)));
+	}, []);
 
-  React.useEffect(() => {
-    saveFilters(filters);
-  }, [filters]);
+	React.useEffect(() => {
+		saveFilters(filters);
+	}, [filters]);
 
-  if (error?.statusCode === 401) {
-    return <Redirect to="/login" />;
-  }
+	//TODO: gestionar error
+	if (error?.statusCode === 401) {
+		return <Redirect to="/login" />;
+	}
 
-  const filteredAdverts = filterAdverts(adverts, filters);
+	const filteredAdverts = filterAdverts(adverts, filters);
 
-  return (
-    <Layout>
-      {adverts.length > 0 && (
-        <FiltersForm
-          initialFilters={filters}
-          defaultFilters={defaultFilters}
-          prices={adverts.map(({ price }) => price)}
-          onFilter={setFilters}
-        />
-      )}
-      {filteredAdverts.length ? (
-        <AdvertsList adverts={filteredAdverts} />
-      ) : (
-        <EmptyList advertsCount={adverts.length} />
-      )}
-    </Layout>
-  );
+	return (
+		<Layout>
+			{adverts.length > 0 && (
+				<FiltersForm
+					initialFilters={filters}
+					defaultFilters={defaultFilters}
+					prices={adverts.map(({ price }) => price)}
+					onFilter={setFilters}
+				/>
+			)}
+			{filteredAdverts.length ? (
+				<AdvertsList adverts={filteredAdverts} />
+			) : (
+				<EmptyList advertsCount={adverts.length} />
+			)}
+		</Layout>
+	);
 }
 
 export default AdvertsPage;

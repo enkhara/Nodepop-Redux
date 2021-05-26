@@ -11,7 +11,9 @@ import configureStore from './store';
 const accessToken = storage.get('auth');
 configureClient({ accessToken });
 
-const store = configureStore({ preloadedState: { auth: !!accessToken } });
+const store = configureStore({
+	preloadedState: { auth: !!accessToken },
+});
 console.log(store.getState());
 
 ReactDOM.render(<Root store={store} />, document.getElementById('root'));

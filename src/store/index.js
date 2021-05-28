@@ -3,9 +3,16 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware from 'redux-thunk';
 import reducer from './reducer';
 
-const middleware = [thunkMiddleware];
+import * as auth from '../api/auth';
+import * as adverts from '../api/adverts';
 
-const configureStore = ({ preloadedState }) => {
+// console.log(auth);
+// console.log(adverts);
+
+const api = { auth, adverts };
+
+const configureStore = ({ preloadedState, history }) => {
+	const middleware = [thunkMiddleware.withExtraArgument({ api, history })];
 	const store = createStore(
 		reducer,
 		preloadedState,

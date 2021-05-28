@@ -6,23 +6,24 @@ import AdvertDetail from './AdvertDetail';
 import { getAdvert, deleteAdvert } from '../../../api/adverts';
 import usePromise from '../../../hooks/usePromise';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdverts } from '../../../store/selectors';
-import { advertsLoaded } from '../../../store/actions';
+import { getAdverts, getUi } from '../../../store/selectors';
+import { advertCreatedAction } from '../../../store/actions';
 
 function AdvertPage() {
 	const { advertId } = useParams();
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const adverts = useSelector(getAdverts);
+	const { loading, error } = useSelector(getUi);
 	const {
 		isPending: isLoading,
-		error,
+		//error,
 		execute,
 		data: advert,
 	} = usePromise(null);
 
 	React.useEffect(() => {
-		getAdvert().then((adverts) => dispatch(advertsLoaded(adverts)));
+		getAdvert().then((adverts) => dispatch(advertCreatedAction(adverts)));
 	}, []);
 
 	const handleDelete = () => {

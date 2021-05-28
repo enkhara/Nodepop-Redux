@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createBrowserHistory } from 'history';
 
 import Root from './Root';
 import './index.css';
@@ -10,10 +11,15 @@ import configureStore from './store';
 
 const accessToken = storage.get('auth');
 configureClient({ accessToken });
+const history = createBrowserHistory();
 
 const store = configureStore({
 	preloadedState: { auth: !!accessToken },
+	history,
 });
 console.log(store.getState());
 
-ReactDOM.render(<Root store={store} />, document.getElementById('root'));
+ReactDOM.render(
+	<Root store={store} history={history} />,
+	document.getElementById('root')
+);

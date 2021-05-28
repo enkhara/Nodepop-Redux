@@ -2,18 +2,16 @@ import React from 'react';
 import T from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
-import usePromise from '../../../hooks/usePromise';
-
 import LoginForm from './LoginForm';
 import { loginAction, resetError } from '../../../store/actions';
 import { getUi } from '../../../store/selectors';
 
-function LoginPage({ location, history }) {
+function LoginPage() {
 	const dispatch = useDispatch();
 	const { isLoading, error } = useSelector(getUi);
 
 	const handleSubmit = async (credentials) => {
-		dispatch(loginAction(credentials, history, location));
+		dispatch(loginAction(credentials));
 	};
 
 	return (

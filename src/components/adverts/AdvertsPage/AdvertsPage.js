@@ -7,40 +7,35 @@ import AdvertsList from './AdvertsList';
 import EmptyList from './EmptyList';
 import storage from '../../../utils/storage';
 import { defaultFilters, filterAdverts } from './filters';
-import { getAllAdverts } from '../../../api/adverts';
+//import { getAllAdverts } from '../../../api/adverts';
 //import usePromise from '../../../hooks/usePromise';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdverts } from '../../../store/selectors';
-import { advertsLoaded } from '../../../store/actions';
+import { getAdverts, getUi } from '../../../store/selectors';
+import { advertsLoadedAction } from '../../../store/actions';
 
 const getFilters = () => storage.get('filters') || defaultFilters;
 const saveFilters = (filters) => storage.set('filters', filters);
 
 function AdvertsPage() {
-	// const {
-	// 	isPending: isLoading,
-	// 	error,
-	// 	execute,
-	// 	data: adverts,
-	// } = usePromise([]);
 	const [filters, setFilters] = React.useState(getFilters);
 	const dispatch = useDispatch();
 	const adverts = useSelector(getAdverts);
+	const { error } = useSelector(getUi);
 
 	React.useEffect(() => {
-		getAllAdverts().then((adverts) => dispatch(advertsLoaded(adverts)));
+		dispatch(advertsLoadedAction());
 	}, []);
 
+	//TODO: gestionar els filtres
 	React.useEffect(() => {
 		saveFilters(filters);
 	}, [filters]);
 
-	//TODO: gestionar error
 	if (error?.statusCode === 401) {
 		return <Redirect to="/login" />;
 	}
-
+	console.log('en advertsPage adverts per filtrar', adverts);
 	const filteredAdverts = filterAdverts(adverts, filters);
 
 	return (

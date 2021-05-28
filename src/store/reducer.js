@@ -14,7 +14,6 @@ import {
 	ADVERT_DETAIL_SUCCESS,
 	ADVERT_DETAIL_FAILURE,
 	UI_RESET_ERROR,
-
 } from './types';
 
 const initialState = {
@@ -78,7 +77,7 @@ export function tags(state = initialState.tags, action) {
 	console.log('en tags reducer', state);
 	switch (action.type) {
 		case TAGS_LOADED_SUCCESS:
-			return { ...state, tags:action.payload }
+			return { ...state, tags: action.payload };
 		default:
 			return state;
 	}
@@ -119,6 +118,7 @@ export function ui(state = initialState.ui, action) {
 const reducer = combineReducers({
 	auth,
 	adverts,
+	tags,
 	ui,
 });
 

@@ -74,10 +74,15 @@ export function adverts(state = initialState.adverts, action) {
 }
 
 export function tags(state = initialState.tags, action) {
-	//console.log('en tags reducer', state);
 	switch (action.type) {
 		case TAGS_LOADED_SUCCESS:
-			return { ...state, tags: action.payload };
+			console.log('en tags reducer', action.payload, state);
+			console.log(' ...state, tags: action.payload', {
+				...state,
+				tags: action.payload,
+			});
+			//return {...state, tags: action.payload;}
+			return state.concat(action.payload);
 		default:
 			return state;
 	}

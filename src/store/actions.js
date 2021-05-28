@@ -110,7 +110,7 @@ export const tagsLoadedRequest = () => {
 };
 
 export const tagsLoadedSuccess = (tags) => {
-	//console.log('ACTION TAGSLOADEDSUCCESS', tags);
+	console.log('ACTION TAGSLOADEDSUCCESS', tags);
 	return {
 		type: TAGS_LOADED_SUCCESS,
 		payload: tags,

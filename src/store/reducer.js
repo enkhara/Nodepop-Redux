@@ -38,6 +38,7 @@ const initialState = {
 // }
 
 export function auth(state = initialState.auth, action) {
+	console.log('en auth reducer', state);
 	switch (action.type) {
 		case AUTH_LOGIN_SUCCESS:
 			return true;
@@ -49,6 +50,7 @@ export function auth(state = initialState.auth, action) {
 }
 
 export function adverts(state = initialState.adverts, action) {
+	console.log('en advert reducer', state);
 	switch (action.type) {
 		case ADVERTS_LOADED_SUCCESS:
 			return { ...state, loaded: true, data: action.payload };
@@ -63,6 +65,7 @@ export function adverts(state = initialState.adverts, action) {
 	}
 }
 export function ui(state = initialState.ui, action) {
+	console.log('en ui reducer', state);
 	if (action.error) {
 		return { ...state, loading: false, error: action.payload };
 	}

@@ -62,11 +62,10 @@ export const advertsLoadedRequest = () => {
 };
 
 export const advertsLoadedSuccess = (adverts) => {
+	console.log('ACTION ADVERTSLOADEDSUCCESS', adverts);
 	return {
 		type: ADVERTS_LOADED_SUCCESS,
-		payload: {
-			adverts,
-		},
+		payload: adverts,
 	};
 };
 
@@ -108,9 +107,7 @@ export const advertCreatedRequest = () => {
 export const advertCreatedSuccess = (advert) => {
 	return {
 		type: ADVERT_CREATED_SUCCESS,
-		payload: {
-			advert,
-		},
+		payload: advert,
 	};
 };
 

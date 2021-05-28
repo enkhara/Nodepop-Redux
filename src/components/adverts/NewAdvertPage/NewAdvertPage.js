@@ -3,7 +3,7 @@ import T from 'prop-types';
 import { Redirect } from 'react-router-dom';
 
 //import { createAdvert } from '../../../api/adverts';
-import usePromise from '../../../hooks/usePromise';
+//import usePromise from '../../../hooks/usePromise';
 import Layout from '../../layout';
 import NewAdvertForm from './NewAdvertForm';
 
@@ -14,9 +14,9 @@ function NewAdvertPage({ history }) {
 	//const { isPending: isLoading, error, execute } = usePromise(null);
 
 	const dispatch = useDispatch();
-	const { loading, error } = useSelector(getUi);
+	const { error } = useSelector(getUi);
 	const handleSubmit = async (newAdvert) => {
-		const advert = dispatch(advertCreatedAction(newAdvert)).then(({ id }) =>
+		dispatch(advertCreatedAction(newAdvert)).then(({ id }) =>
 			history.push(`/adverts/${id}`)
 		);
 	};

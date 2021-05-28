@@ -68,7 +68,7 @@ export const advertsLoadedRequest = () => {
 };
 
 export const advertsLoadedSuccess = (adverts) => {
-	console.log('ACTION ADVERTSLOADEDSUCCESS', adverts);
+	//console.log('ACTION ADVERTSLOADEDSUCCESS', adverts);
 	return {
 		type: ADVERTS_LOADED_SUCCESS,
 		payload: adverts,
@@ -85,7 +85,7 @@ export const advertsLoadedFailure = (error) => {
 
 export const advertsLoadedAction = () => {
 	return async function (dispatch, getState, { api }) {
-		console.log('hello state', getState());
+		//console.log('hello state', getState());
 		const advertsLoaded = getAdvertsLoaded(getState());
 		if (advertsLoaded) {
 			return;
@@ -94,7 +94,7 @@ export const advertsLoadedAction = () => {
 		try {
 			const adverts = await api.adverts.getAllAdverts();
 			dispatch(advertsLoadedSuccess(adverts));
-			console.log('actions line 91 error', adverts);
+			//console.log('actions line 91 error', adverts);
 		} catch (error) {
 			//TODO: pasarle el history y manejar en caso de rror la redireccion para quitarla del componente
 			dispatch(advertsLoadedFailure(error));
@@ -110,7 +110,7 @@ export const tagsLoadedRequest = () => {
 };
 
 export const tagsLoadedSuccess = (tags) => {
-	console.log('ACTION ADVERTSLOADEDSUCCESS', tags);
+	//console.log('ACTION TAGSLOADEDSUCCESS', tags);
 	return {
 		type: TAGS_LOADED_SUCCESS,
 		payload: tags,
@@ -129,14 +129,16 @@ export const tagsLoadedAction = () => {
 	return async function (dispatch, getState, { api }) {
 		console.log('hello state tags', getState());
 		const tagsLoaded = getTagsLoaded(getState());
+		console.log('tagsloaded', tagsLoaded);
 		if (tagsLoaded) {
 			return;
 		}
 		dispatch(tagsLoadedRequest());
 		try {
-			const tags = await api.tags.getAllTags();
+			console.log('entrando en el try');
+			const tags = await api.adverts.getAllTags();
+			console.log('API CALL TAGS', tags);
 			dispatch(tagsLoadedSuccess(tags));
-			console.log('actions line 91 error', tags);
 		} catch (error) {
 			//TODO: pasarle el history y manejar en caso de rror la redireccion para quitarla del componente
 			dispatch(advertsLoadedFailure(error));
@@ -169,15 +171,15 @@ export const advertCreatedFailure = (error) => {
 
 export const advertCreatedAction = (advert) => {
 	return async function (dispatch, getState, { api, history }) {
-		console.log('hello state', getState());
+		//console.log('hello state', getState());
 
 		dispatch(advertCreatedRequest());
 		try {
 			const { id: advertId } = await api.adverts.createdAdvert(advert);
-			console.log('1', advert);
+			//console.log('1', advert);
 			const createdAdvert = await api.adverts.getAdvert(advertId);
-			console.log('2', advertId);
-			console.log('3', createdAdvert);
+			//console.log('2', advertId);
+			//console.log('3', createdAdvert);
 			dispatch(advertCreatedSuccess(createdAdvert));
 			history.push(`/adverts/${advertId}`);
 		} catch (error) {

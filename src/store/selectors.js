@@ -10,4 +10,8 @@ export const getAdverts = (state) =>
 export const getAdvertsLoaded = (state) => state.adverts.loaded;
 //TODO: afegir en el selector de getAdverts la lógica  per pintar els anuncis per ordre ascendent de data de creació
 
+export const getTags = (state) => state.tags;
+
+export const getTagsLoaded = (state) => !!state.tags.length;
+
 export const getUi = (state) => state.ui;

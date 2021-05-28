@@ -1,4 +1,4 @@
-import { getAdvertsLoaded } from './selectors';
+import { getAdvertsLoaded, getTagsLoaded } from './selectors';
 import {
 	AUTH_LOGIN_REQUEST,
 	AUTH_LOGIN_FAILURE,
@@ -11,6 +11,12 @@ import {
 	ADVERT_CREATED_SUCCESS,
 	ADVERT_CREATED_REQUEST,
 	ADVERT_CREATED_FAILURE,
+	ADVERT_DELETED_REQUEST,
+	ADVERT_DELETED_SUCCESS,
+	ADVERT_DELETED_FAILURE,
+	TAGS_LOADED_REQUEST,
+	TAGS_LOADED_SUCCESS,
+	TAGS_LOADED_FAILURE,
 } from './types';
 
 /*************************LOGIN************************************** */
@@ -96,6 +102,48 @@ export const advertsLoadedAction = () => {
 	};
 };
 
+/*******************************TAGS*********************************** */
+export const tagsLoadedRequest = () => {
+	return {
+		type: TAGS_LOADED_REQUEST,
+	};
+};
+
+export const tagsLoadedSuccess = (tags) => {
+	console.log('ACTION ADVERTSLOADEDSUCCESS', tags);
+	return {
+		type: TAGS_LOADED_SUCCESS,
+		payload: tags,
+	};
+};
+
+export const tagsLoadedFailure = (error) => {
+	return {
+		type: TAGS_LOADED_FAILURE,
+		payload: error,
+		error: true,
+	};
+};
+
+export const tagsLoadedAction = () => {
+	return async function (dispatch, getState, { api }) {
+		console.log('hello state tags', getState());
+		const tagsLoaded = getTagsLoaded(getState());
+		if (tagsLoaded) {
+			return;
+		}
+		dispatch(tagsLoadedRequest());
+		try {
+			const tags = await api.tags.getAllTags();
+			dispatch(tagsLoadedSuccess(tags));
+			console.log('actions line 91 error', tags);
+		} catch (error) {
+			//TODO: pasarle el history y manejar en caso de rror la redireccion para quitarla del componente
+			dispatch(advertsLoadedFailure(error));
+		}
+	};
+};
+
 /**************************ADVERT CREATION***************************** */
 
 export const advertCreatedRequest = () => {
@@ -120,13 +168,18 @@ export const advertCreatedFailure = (error) => {
 };
 
 export const advertCreatedAction = (advert) => {
-	return async function (dispatch, getState, { api }) {
+	return async function (dispatch, getState, { api, history }) {
 		console.log('hello state', getState());
 
 		dispatch(advertCreatedRequest());
 		try {
-			const createdAdvert = await api.adverts.createdAdvert(advert);
+			const { id: advertId } = await api.adverts.createdAdvert(advert);
+			console.log('1', advert);
+			const createdAdvert = await api.adverts.getAdvert(advertId);
+			console.log('2', advertId);
+			console.log('3', createdAdvert);
 			dispatch(advertCreatedSuccess(createdAdvert));
+			history.push(`/adverts/${advertId}`);
 		} catch (error) {
 			dispatch(advertCreatedFailure(error));
 		}

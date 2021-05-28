@@ -8,7 +8,7 @@ const mapAdvert = ({ photo, ...advert }) => ({
 	photo: photo ? `${process.env.REACT_APP_API_BASE_URL}${photo}` : photo,
 });
 
-export const getTags = () => {
+export const getAllTags = () => {
 	return client.get(`${advertsPath}/tags`);
 };
 

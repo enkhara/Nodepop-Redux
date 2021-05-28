@@ -2,23 +2,18 @@ import React from 'react';
 import T from 'prop-types';
 import { Redirect } from 'react-router-dom';
 
-//import { createAdvert } from '../../../api/adverts';
-//import usePromise from '../../../hooks/usePromise';
 import Layout from '../../layout';
 import NewAdvertForm from './NewAdvertForm';
 
 import { getUi } from '../../../store/selectors';
 import { advertCreatedAction } from '../../../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
-function NewAdvertPage({ history }) {
-	//const { isPending: isLoading, error, execute } = usePromise(null);
-
+function NewAdvertPage() {
 	const dispatch = useDispatch();
 	const { error } = useSelector(getUi);
+
 	const handleSubmit = async (newAdvert) => {
-		dispatch(advertCreatedAction(newAdvert)).then(({ id }) =>
-			history.push(`/adverts/${id}`)
-		);
+		await dispatch(advertCreatedAction(newAdvert));
 	};
 
 	if (error?.statusCode === 401) {

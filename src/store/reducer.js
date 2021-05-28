@@ -7,7 +7,14 @@ import {
 	AUTH_LOGIN_REQUEST,
 	AUTH_LOGIN_SUCCESS,
 	AUTH_LOGOUT,
+	TAGS_LOADED_REQUEST,
+	TAGS_LOADED_SUCCESS,
+	TAGS_LOADED_FAILURE,
+	ADVERT_DETAIL_REQUEST,
+	ADVERT_DETAIL_SUCCESS,
+	ADVERT_DETAIL_FAILURE,
 	UI_RESET_ERROR,
+
 } from './types';
 
 const initialState = {
@@ -16,6 +23,7 @@ const initialState = {
 		loaded: false,
 		data: [],
 	},
+	tags: [],
 	ui: {
 		loading: false,
 		error: null,
@@ -55,6 +63,7 @@ export function adverts(state = initialState.adverts, action) {
 		case ADVERTS_LOADED_SUCCESS:
 			return { ...state, loaded: true, data: action.payload };
 		case ADVERT_CREATED_SUCCESS:
+		case ADVERT_DETAIL_SUCCESS:
 			return {
 				...state,
 				loaded: false,
@@ -64,6 +73,17 @@ export function adverts(state = initialState.adverts, action) {
 			return state;
 	}
 }
+
+export function tags(state = initialState.tags, action) {
+	console.log('en tags reducer', state);
+	switch (action.type) {
+		case TAGS_LOADED_SUCCESS:
+			return { ...state, tags:action.payload }
+		default:
+			return state;
+	}
+}
+
 export function ui(state = initialState.ui, action) {
 	console.log('en ui reducer', state);
 	if (action.error) {
@@ -72,9 +92,11 @@ export function ui(state = initialState.ui, action) {
 	switch (action.type) {
 		case AUTH_LOGIN_REQUEST:
 		case ADVERTS_LOADED_REQUEST:
+		case TAGS_LOADED_REQUEST:
 			return { ...state, loading: true, error: null };
 		case AUTH_LOGIN_SUCCESS:
 		case ADVERTS_LOADED_SUCCESS:
+		case TAGS_LOADED_SUCCESS:
 			return { ...state, loading: false };
 		case UI_RESET_ERROR:
 			return {

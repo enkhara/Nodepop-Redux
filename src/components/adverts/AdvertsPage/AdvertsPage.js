@@ -27,7 +27,6 @@ function AdvertsPage() {
 		dispatch(advertsLoadedAction());
 	}, []);
 
-	//TODO: gestionar els filtres
 	React.useEffect(() => {
 		saveFilters(filters);
 	}, [filters]);

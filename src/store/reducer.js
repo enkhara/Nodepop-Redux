@@ -9,11 +9,14 @@ import {
 	AUTH_LOGOUT,
 	TAGS_LOADED_REQUEST,
 	TAGS_LOADED_SUCCESS,
-	TAGS_LOADED_FAILURE,
+	//TAGS_LOADED_FAILURE,
 	ADVERT_DETAIL_REQUEST,
 	ADVERT_DETAIL_SUCCESS,
-	ADVERT_DETAIL_FAILURE,
+	//ADVERT_DETAIL_FAILURE,
 	UI_RESET_ERROR,
+	ADVERT_CREATED_REQUEST,
+	ADVERT_DELETED_SUCCESS,
+	ADVERT_DELETED_REQUEST,
 } from './types';
 
 const initialState = {
@@ -63,6 +66,7 @@ export function adverts(state = initialState.adverts, action) {
 			return { ...state, loaded: true, data: action.payload };
 		case ADVERT_CREATED_SUCCESS:
 		case ADVERT_DETAIL_SUCCESS:
+		case ADVERT_DELETED_SUCCESS:
 			return {
 				...state,
 				loaded: false,
@@ -96,11 +100,17 @@ export function ui(state = initialState.ui, action) {
 	switch (action.type) {
 		case AUTH_LOGIN_REQUEST:
 		case ADVERTS_LOADED_REQUEST:
+		case ADVERT_DETAIL_REQUEST:
 		case TAGS_LOADED_REQUEST:
+		case ADVERT_CREATED_REQUEST:
+		case ADVERT_DELETED_REQUEST:
 			return { ...state, loading: true, error: null };
 		case AUTH_LOGIN_SUCCESS:
 		case ADVERTS_LOADED_SUCCESS:
 		case TAGS_LOADED_SUCCESS:
+		case ADVERT_DETAIL_SUCCESS:
+		case ADVERT_CREATED_SUCCESS:
+		case ADVERT_DELETED_SUCCESS:
 			return { ...state, loading: false };
 		case UI_RESET_ERROR:
 			return {

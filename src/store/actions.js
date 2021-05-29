@@ -1,4 +1,5 @@
-import { getAdvertsLoaded, getTagsLoaded } from './selectors';
+import AdvertDetail from '../components/adverts/AdvertPage/AdvertDetail';
+import { getAdvertDetail, getAdvertsLoaded, getTagsLoaded } from './selectors';
 import {
 	AUTH_LOGIN_REQUEST,
 	AUTH_LOGIN_FAILURE,
@@ -17,6 +18,9 @@ import {
 	TAGS_LOADED_REQUEST,
 	TAGS_LOADED_SUCCESS,
 	TAGS_LOADED_FAILURE,
+	ADVERT_DETAIL_SUCCESS,
+	ADVERT_DETAIL_REQUEST,
+	ADVERT_DETAIL_FAILURE,
 } from './types';
 
 /*************************LOGIN************************************** */
@@ -175,15 +179,102 @@ export const advertCreatedAction = (advert) => {
 
 		dispatch(advertCreatedRequest());
 		try {
-			const { id: advertId } = await api.adverts.createdAdvert(advert);
-			//console.log('1', advert);
-			const createdAdvert = await api.adverts.getAdvert(advertId);
-			//console.log('2', advertId);
-			//console.log('3', createdAdvert);
+			//const { id: advertId } = await api.adverts.createdAdvert(advert);
+			const createdAdvert = await api.adverts.createdAdvert(advert);
+			//TODO:mirar si cal fer aquesta petició a l'apì amb la lògica de la pràctica del David
+			//para pedimos al api el nuevo advert
+			//const createdAdvert = await api.adverts.getAdvert(advertId);
+
 			dispatch(advertCreatedSuccess(createdAdvert));
-			history.push(`/adverts/${advertId}`);
+			history.push(`/adverts/${createdAdvert.id}`);
 		} catch (error) {
 			dispatch(advertCreatedFailure(error));
+			if (error?.statusCode === 401) {
+				history.push('/login');
+			}
+		}
+	};
+};
+/*****************ADVERT DETAIL************************ */
+
+export const advertDetailRequest = () => {
+	return {
+		type: ADVERT_DETAIL_REQUEST,
+	};
+};
+
+export const advertDetailSuccess = (advert) => {
+	return {
+		type: ADVERT_DETAIL_SUCCESS,
+		payload: advert,
+	};
+};
+
+export const advertDetailFailure = (error) => {
+	return {
+		type: ADVERT_DETAIL_FAILURE,
+		payload: error,
+		error: true,
+	};
+};
+
+export const advertDetailAction = (advertId) => {
+	return async function (dispatch, getState, { api, history }) {
+		const advertLoaded = getAdvertDetail(getState(), advertId);
+		if (advertLoaded) {
+			return;
+		}
+		dispatch(advertDetailRequest());
+		try {
+			const advert = await api.adverts.getAdvert(advertId);
+			dispatch(advertDetailSuccess(advert));
+			return advert;
+		} catch (error) {
+			dispatch(advertDetailFailure(error));
+		}
+	};
+};
+
+/*******************ADVERT DELETE ************************* */
+
+export const advertDeletedRequest = () => {
+	return {
+		type: ADVERT_DELETED_REQUEST,
+	};
+};
+
+export const advertDeletedSuccess = (advert) => {
+	//console.log('ACTION ADVERTSLOADEDSUCCESS', adverts);
+	return {
+		type: ADVERT_DELETED_SUCCESS,
+		payload: advert,
+	};
+};
+
+export const advertDeletedFailure = (error) => {
+	return {
+		type: ADVERT_DELETED_FAILURE,
+		payload: error,
+		error: true,
+	};
+};
+
+export const advertDeletedAction = (advertId) => {
+	return async function (dispatch, getState, { api, history }) {
+		//console.log('hello state', getState());
+		// const advertsLoaded = getAdvertsLoaded(getState());
+		// if (advertsLoaded) {
+		// 	return;
+		// }
+		dispatch(advertDeletedRequest());
+		try {
+			const advert = await api.adverts.deleteAdvert(advertId);
+			dispatch(advertDeletedSuccess(advert));
+			history.push('/');
+			//console.log('actions line 91 error', adverts);
+		} catch (error) {
+			//TODO: pasarle el history y manejar en caso de rror la redireccion para quitarla del componente
+			dispatch(advertDeletedFailure(error));
 		}
 	};
 };

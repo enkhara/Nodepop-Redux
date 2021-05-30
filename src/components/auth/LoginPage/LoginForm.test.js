@@ -43,7 +43,7 @@ describe('LoginForm', () => {
 
 		const checkboxField = wrapper.find("[name='remember']");
 		//console.log(usernameField.debug());
-		usernameField
+		checkboxField
 			.props()
 			.onChange({ target: { name: 'remember', value: credentials.remember } });
 
@@ -51,6 +51,5 @@ describe('LoginForm', () => {
 		form.simulate('submit', { preventDefault: () => {} });
 
 		expect(props.onSubmit).toHaveBeenCalledWith(credentials);
-		//expect(wrapper.find('button').props().disabled).toBe(false);
 	});
 });

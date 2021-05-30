@@ -22,9 +22,35 @@ describe('LoginForm', () => {
 	});
 
 	test('should submit credentials', () => {
+		const credentials = {
+			email: 'morgan',
+			password: 'password',
+			remember: false,
+		};
+
 		const wrapper = render();
+		const usernameField = wrapper.find("[name='email']");
+		//console.log(usernameField.debug());
+		usernameField
+			.props()
+			.onChange({ target: { name: 'email', value: credentials.email } });
+
+		const passwordField = wrapper.find("[name='password']");
+		//console.log(passwordField.debug());
+		passwordField
+			.props()
+			.onChange({ target: { name: 'password', value: credentials.password } });
+
+		const checkboxField = wrapper.find("[name='remember']");
+		//console.log(usernameField.debug());
+		usernameField
+			.props()
+			.onChange({ target: { name: 'remember', value: credentials.remember } });
+
 		const form = wrapper.find('form');
 		form.simulate('submit', { preventDefault: () => {} });
-		expect(props.onSubmit).toHaveBeenCalled();
+
+		expect(props.onSubmit).toHaveBeenCalledWith(credentials);
+		//expect(wrapper.find('button').props().disabled).toBe(false);
 	});
 });

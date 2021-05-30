@@ -6,7 +6,6 @@ import { AdvertPage, AdvertsPage, NewAdvertPage } from '../adverts';
 import { LoginPage, PrivateRoute } from '../auth';
 
 import NotFoundPage from './NotFoundPage';
-import { authLogin, authLogout } from '../../store/actions';
 
 function App() {
 	return (

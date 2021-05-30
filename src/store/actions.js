@@ -1,4 +1,3 @@
-import AdvertDetail from '../components/adverts/AdvertPage/AdvertDetail';
 import { getAdvertDetail, getAdvertsLoaded, getTagsLoaded } from './selectors';
 import {
 	AUTH_LOGIN_REQUEST,

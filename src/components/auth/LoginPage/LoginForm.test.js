@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import '../../../setupTests';
+//import '../../../setupTests';
 
 import LoginForm from './LoginForm';
 
@@ -19,5 +19,12 @@ describe('LoginForm', () => {
 	test('snapshot testing', () => {
 		const wrapper = render();
 		expect(wrapper).toMatchSnapshot();
+	});
+
+	test('should submit credentials', () => {
+		const wrapper = render();
+		const form = wrapper.find('form');
+		form.simulate('submit', { preventDefault: () => {} });
+		expect(props.onSubmit).toHaveBeenCalled();
 	});
 });

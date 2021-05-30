@@ -19,7 +19,7 @@ import {
 	ADVERT_DELETED_REQUEST,
 } from './types';
 
-const initialState = {
+export const initialState = {
 	auth: false,
 	adverts: {
 		loaded: false,
@@ -85,7 +85,6 @@ export function tags(state = initialState.tags, action) {
 				...state,
 				tags: action.payload,
 			});
-			//return {...state, tags: action.payload;}
 			return state.concat(action.payload);
 		default:
 			return state;
@@ -93,7 +92,7 @@ export function tags(state = initialState.tags, action) {
 }
 
 export function ui(state = initialState.ui, action) {
-	//console.log('en ui reducer', state);
+	
 	if (action.error) {
 		return { ...state, loading: false, error: action.payload };
 	}

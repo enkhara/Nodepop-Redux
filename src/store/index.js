@@ -6,9 +6,6 @@ import reducer from './reducer';
 import * as auth from '../api/auth';
 import * as adverts from '../api/adverts';
 
-// console.log(auth);
-// console.log(adverts);
-
 const api = { auth, adverts };
 
 const configureStore = ({ preloadedState, history }) => {

@@ -33,9 +33,4 @@ LoginPage.propTypes = {
 	history: T.shape({ replace: T.func.isRequired }).isRequired,
 };
 
-// const mapDispatchToProps = (dispatch) => ({
-// 	onLogin: () => dispatch(authLogin()),
-// });
-
-// export default connect(null, mapDispatchToProps)(LoginPage);
 export default LoginPage;

@@ -17,7 +17,6 @@ const store = configureStore({
 	preloadedState: { auth: !!accessToken },
 	history,
 });
-console.log(store.getState());
 
 ReactDOM.render(
 	<Root store={store} history={history} />,

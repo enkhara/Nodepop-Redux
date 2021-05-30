@@ -11,8 +11,6 @@ import {
 
 import Layout from '../../layout';
 import AdvertDetail from './AdvertDetail';
-//import { getAdvert, deleteAdvert } from '../../../api/adverts';
-//import usePromise from '../../../hooks/usePromise';
 
 function AdvertPage() {
 	const dispatch = useDispatch();
@@ -20,13 +18,6 @@ function AdvertPage() {
 	console.log('en advertDetail', advertId);
 	const advert = useSelector((state) => getAdvertDetail(state, advertId));
 	const { error } = useSelector(getUi);
-	//const history = useHistory();
-	// const {
-	// 	isPending: isLoading,
-	// 	error,
-	// 	execute,
-	// 	data: advert,
-	// } = usePromise(null);
 
 	React.useEffect(() => {
 		dispatch(advertDetailAction(advertId));

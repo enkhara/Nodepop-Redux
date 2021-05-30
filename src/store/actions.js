@@ -175,15 +175,9 @@ export const advertCreatedFailure = (error) => {
 
 export const advertCreatedAction = (advert) => {
 	return async function (dispatch, getState, { api, history }) {
-		//console.log('hello state', getState());
-
 		dispatch(advertCreatedRequest());
 		try {
-			//const { id: advertId } = await api.adverts.createdAdvert(advert);
 			const createdAdvert = await api.adverts.createdAdvert(advert);
-			//TODO:mirar si cal fer aquesta petició a l'apì amb la lògica de la pràctica del David
-			//para pedimos al api el nuevo advert
-			//const createdAdvert = await api.adverts.getAdvert(advertId);
 
 			dispatch(advertCreatedSuccess(createdAdvert));
 			history.push(`/adverts/${createdAdvert.id}`);
@@ -244,7 +238,6 @@ export const advertDeletedRequest = () => {
 };
 
 export const advertDeletedSuccess = (advert) => {
-	//console.log('ACTION ADVERTSLOADEDSUCCESS', adverts);
 	return {
 		type: ADVERT_DELETED_SUCCESS,
 		payload: advert,
@@ -261,19 +254,12 @@ export const advertDeletedFailure = (error) => {
 
 export const advertDeletedAction = (advertId) => {
 	return async function (dispatch, getState, { api, history }) {
-		//console.log('hello state', getState());
-		// const advertsLoaded = getAdvertsLoaded(getState());
-		// if (advertsLoaded) {
-		// 	return;
-		// }
 		dispatch(advertDeletedRequest());
 		try {
 			const advert = await api.adverts.deleteAdvert(advertId);
 			dispatch(advertDeletedSuccess(advert));
 			history.push('/');
-			//console.log('actions line 91 error', adverts);
 		} catch (error) {
-			//TODO: pasarle el history y manejar en caso de rror la redireccion para quitarla del componente
 			dispatch(advertDeletedFailure(error));
 		}
 	};

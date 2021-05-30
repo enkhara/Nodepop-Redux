@@ -34,16 +34,10 @@ AuthButton.defaultProps = {
 	isLogged: false,
 };
 
-//TODO: connect(mapStateToProps => passar a hoc, per que també s'està utilitzant a PrivateRoute.js i envoltar-los amb el hoc en lloc de connect)
 const mapStateToProps = (state) => ({ isLogged: getIsLogged(state) });
-
-// const mapDispatchToProps = (dispatch) => ({
-// 	handleLogout: () => dispatch(authLogout()),
-// });
 
 const mapDispatchToProps = {
 	handleLogout: authLogout,
 };
-console.log(authLogout);
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthButton);
